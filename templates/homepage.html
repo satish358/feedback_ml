@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>py feed</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='fonts/ionicons.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/Footer-Basic.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/Login-Form-Clean.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/Navigation-Clean.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/Navigation-with-Search.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+    
+</head>
+
+<body class="bg-light">
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean">
+            <div class="container"><a class="navbar-brand" href="#">GCOEJ Feedbacks</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse"
+                    id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item" role="presentation"><a class="nav-link active" href="#">All Feedbacks</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="#">About GCOEJ ML Team</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="#">About Developer</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="/logout">Logout</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div style="margin:12px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Title</h4>
+                            <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
+                            <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                            <div class="card"></div><a class="card-link" href="#">Link</a><a class="card-link" href="#">Link</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body" >
+                            <h4 class="card-title">All Feedbacks Chart</h4><hr>
+                            <canvas height="80%" id="piachart"></canvas>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="margin-top: 10px">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-hover table-striped" id="feedTable">
+                                <thead class="bg-primary">
+                                    <th>User Name</th>
+                                    <th>App Name</th>
+                                    <th>App ID</th>
+                                    <th>Feedback</th>
+                                    <th>Sentiment</th>
+                                    <th>Sentiment Polarity</th>
+                                </thead>
+                                <tbody>
+                                    {% for i in range(data_len-1) %}
+                                    <tr>
+                                        <td>{{ feeds[i]['name'] }}</td>
+                                        <td>{{ feeds[i]['app_name'] }}</td>
+                                        <td> <a href="/feeds/{{ feeds[i]['app_id'] }}">{{ feeds[i]['app_id'] }}</a></td>
+                                        <td>{{ feeds[i]['feed'] }}</td>
+                                        <td class="{{ feeds[i]['bg'] }}">{{ feeds[i]['sentiment'] }}</td>
+                                        <td>{{ feeds[i]['polarity'] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                
+                        </div>
+                    </div>
+                </div>
+                {% for i in range(data_len-1) %}
+                
+                <div class="col-md-4" style="margin-top: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-header {{ feeds[i]['bg'] }}">
+                                <h5 class="card-title">{{ feeds[i]['name'] }} ::=> {{ feeds[i]['sentiment'] }}</h5>
+                
+                            </div>
+                            <hr>
+                            <h6 class="text-muted card-subtitle mb-2">{{ feeds[i]['app_name'] }} :: {{ feeds[i]['app_id'] }} </h6>
+                            <p class="card-text">{{ feeds[i]['feed'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="footer-basic" style="margin-top:10px;">
+        <footer>
+            <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Home</a></li>
+                <li class="list-inline-item"><a href="#">About ML Team</a></li>
+                <li class="list-inline-item"><a href="#">About Developers</a></li>
+            </ul>
+            <p class="copyright">Design and Developed By Satish Satyawan Mankar TY Comp © 2017</p>
+        </footer>
+    </div>
+    <div></div>
+
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+       var ctx = document.getElementById('piachart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'pie',
+
+            // The data for our dataset
+            data: {
+                labels: ["Positive", "Negative", "Neutral"],
+                datasets: [{
+                    label: "My First dataset",
+                    backgroundColor: ['#00ff8c','#ff0083','#a100ff'],
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [{{ feeds['chart']['pos'] }}, {{ feeds['chart']['neg'] }}, {{ feeds['chart']['neu'] }} ],
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+
+        $(document).ready(function () {
+                $('#feedTable').DataTable();
+            });
+
+    </script>
+</body>
+
+</html>
